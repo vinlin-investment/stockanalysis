@@ -10,7 +10,7 @@
 # pipeline steps below
 pipeline:
 
-  #GRADLE BUILD
+  #GRADLE BUILD#
   build:
     when:
       event:
