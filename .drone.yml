@@ -1,11 +1,11 @@
-
-# build as a docker container and upload to artifactory
-docker-build: &docker-build
-  dockerfile: Dockerfile
-  image: plugins/docker
-  registry: registry.hub.docker.io
-  secrets: [ docker_username, docker_password ]
-  repo: vincentko89/stockanalysis
+#
+## build as a docker container and upload to artifactory
+#docker-build: &docker-build
+#  dockerfile: Dockerfile
+#  image: plugins/docker
+#  registry: registry.hub.docker.io
+#  secrets: [ docker_username, docker_password ]
+#  repo: vincentko89/stockanalysis
 
 # pipeline steps below
 pipeline:
@@ -21,26 +21,26 @@ pipeline:
     commands:
       - ./gradlew clean build --info --stacktrace
 
-#  #DOCKER BUILD - LATEST - ARTIFACTORY
-  docker-build-dockerhub-dev-publish-latest:
-    when:
-      branch: [ dev, VL* ]
-      event: [ push ]
-#      ref: refs/tags/dev*
-    <<: *docker-build
-    build_args: VERSION=${DRONE_COMMIT:0:8}
-    tag:
-      - latest
-      - "${DRONE_COMMIT:0:8}"
-#
-#  # DOCKER BUILD - RELEASE - ARTIFACTORY
-#  docker-build-artifactory-master-publish-release:
+##  #DOCKER BUILD - LATEST - ARTIFACTORY
+#  docker-build-dockerhub-dev-publish-latest:
 #    when:
-#      branch: [ master ]
+#      branch: [ dev, VL* ]
 #      event: [ push ]
+##      ref: refs/tags/dev*
 #    <<: *docker-build
 #    build_args: VERSION=${DRONE_COMMIT:0:8}
 #    tag:
 #      - latest
 #      - "${DRONE_COMMIT:0:8}"
+##
+##  # DOCKER BUILD - RELEASE - ARTIFACTORY
+##  docker-build-artifactory-master-publish-release:
+##    when:
+##      branch: [ master ]
+##      event: [ push ]
+##    <<: *docker-build
+##    build_args: VERSION=${DRONE_COMMIT:0:8}
+##    tag:
+##      - latest
+##      - "${DRONE_COMMIT:0:8}"
 
