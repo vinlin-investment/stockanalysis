@@ -11,16 +11,16 @@ docker-build: &docker-build
 pipeline:
 
   #GRADLE BUILD
-#  build:
-#    when:
-#      event:
-#        - push
-#    image: java:openjdk-8
-#    secrets: [ docker_username, docker_password ]
-#    environment:
-#      - GRADLE_USER_HOME=.gradle
-#    commands:
-#      - ./gradlew clean build --info --stacktrace
+  build:
+    when:
+      event:
+        - push
+    image: java:openjdk-8
+    secrets: [ docker_username, docker_password ]
+    environment:
+      - GRADLE_USER_HOME=.gradle
+    commands:
+      - ./gradlew clean build --info --stacktrace
 
   #DOCKER BUILD - LATEST - ARTIFACTORY
   docker-build-dockerhub-dev-publish-latest:
