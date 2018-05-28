@@ -8,6 +8,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "se.transmode.gradle:gradle-docker:1.2"
 	}
 }
 
@@ -15,6 +16,7 @@ apply plugin: 'groovy'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'docker'
 
 group = 'com.vinlin.investment'
 version = '0.0.1-SNAPSHOT'
@@ -35,4 +37,21 @@ dependencies {
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('io.projectreactor:reactor-test')
+}
+
+
+task buildDocker(type: Docker, dependsOn: [build]) {
+	baseImage = 'frolvlad/alpine-oraclejdk8:slim'
+	push = true
+	tag = 'index.docker.io/v1/vincentko89/stockanalysis'
+	addFile {
+		from jar
+		rename {'app.jar'}
+	}
+	entryPoint([
+			'java',
+			'-Djava.security.egd=file:/dev/./urandom',
+			'-jar',
+			'/app.jar'
+	])
 }
