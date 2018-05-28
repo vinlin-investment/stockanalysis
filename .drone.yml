@@ -11,27 +11,30 @@ docker-build: &docker-build
 pipeline:
 
   #GRADLE BUILD
-#  build:
-#    when:
-#      event:
-#        - push
-#    image: java:openjdk-8
-#    environment:
-#      - GRADLE_USER_HOME=.gradle
-#    commands:
+  build:
+    when:
+      event:
+        - push
+    image: java:openjdk-8
+    secrets: [ docker_username, docker_password ]
+    environment:
+      - GRADLE_USER_HOME=.gradle
+    commands:
+      - echo $DOCKER_USERNAME
+      - echo $DOCKER_PASSWORD
 #      - ./gradlew clean build --info --stacktrace
 
 #  #DOCKER BUILD - LATEST - ARTIFACTORY
-  docker-build-dockerhub-dev-publish-latest:
-    when:
-      branch: [ dev, VL* ]
-      event: [ push ]
-#      ref: refs/tags/dev*
-    <<: *docker-build
-    build_args: VERSION=${DRONE_COMMIT:0:8}
-    tag:
-      - latest
-      - "${DRONE_COMMIT:0:8}"
+#  docker-build-dockerhub-dev-publish-latest:
+#    when:
+#      branch: [ dev, VL* ]
+#      event: [ push ]
+##      ref: refs/tags/dev*
+#    <<: *docker-build
+#    build_args: VERSION=${DRONE_COMMIT:0:8}
+#    tag:
+#      - latest
+#      - "${DRONE_COMMIT:0:8}"
 #
 #  # DOCKER BUILD - RELEASE - ARTIFACTORY
 #  docker-build-artifactory-master-publish-release:
