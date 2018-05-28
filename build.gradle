@@ -43,7 +43,7 @@ dependencies {
 task buildDocker(type: Docker, dependsOn: [build]) {
 	baseImage = 'frolvlad/alpine-oraclejdk8:slim'
 	push = true
-	tag = 'index.docker.io/v1/vincentko89/stockanalysis'
+	tag = 'vincentko89/stockanalysis'
 	addFile {
 		from jar
 		rename {'app.jar'}
