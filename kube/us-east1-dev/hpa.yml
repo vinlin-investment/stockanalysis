@@ -1,0 +1,12 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: voltron-ppa-service
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: voltron-ppa-service
+  minReplicas: 5
+  maxReplicas: 30
+  targetCPUUtilizationPercentage: 60

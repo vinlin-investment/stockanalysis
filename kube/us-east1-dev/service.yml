@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: voltron-ppa-service
+  name: voltron-ppa-service
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/path: /actuator/prometheus
+    prometheus.io/port: '8080'
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    name: voltron-ppa-service

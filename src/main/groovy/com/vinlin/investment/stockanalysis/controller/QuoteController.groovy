@@ -77,9 +77,12 @@ class QuoteController {
         Double latestPrice = res.get(ticker.symbol).get("quote").latestPrice
         Double week52High = res.get(ticker.symbol).get("quote").week52High
         Double week52low = res.get(ticker.symbol).get("quote").week52Low
+        Double open = res.get(ticker.symbol).get("quote").open
         Double ratioTodayPriceTo52WeekLow = week52low / latestPrice
         Double ratio52WeekLowToHigh = week52low / week52High
-        if (ratioTodayPriceTo52WeekLow >= reg.ratio.toDouble() && ratio52WeekLowToHigh <= 0.5) {
+        if (ratioTodayPriceTo52WeekLow >= reg.ratio.toDouble()
+                && ratio52WeekLowToHigh <= 0.5
+                    && open <= reg.priceBelow.toDouble()) {
             LOGGER.info("Symbol: " + res.get(ticker.symbol).get("quote").symbol + " | Ratio: $ratioTodayPriceTo52WeekLow")
             quoteResponses.add(res.get(ticker.symbol).get("quote"))
         }

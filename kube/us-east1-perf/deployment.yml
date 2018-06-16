@@ -1,0 +1,50 @@
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: voltron-ppa-service
+  name: voltron-ppa-service
+spec:
+  replicas:
+  template:
+    metadata:
+      labels:
+        name: voltron-ppa-service
+      name: voltron-ppa-service
+    spec:
+      containers:
+        - name: voltron-ppa-service
+          image: "gcr.io/tgt-pe-prod/voltron-ppa-service:latest"
+          ports:
+            -
+              containerPort: 8080
+          env:
+          - name: SPRING_PROFILE_ACTIVE
+            valueFrom:
+              configMapKeyRef:
+                name: voltron-ppa-service
+                key: env
+          resources:
+            requests:
+              cpu: 1
+              memory: 6G
+            limits:
+              cpu: 6
+              memory: 16G
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 140
+            periodSeconds: 4
+            timeoutSeconds: 2
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3

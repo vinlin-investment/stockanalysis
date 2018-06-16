@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: voltron-ppa-service
+  labels:
+    name: voltron-ppa-service
+spec:
+  rules:
+  - host: voltron-ppa-service-perf.us-east1-prod.us-east1.tgt-pe-prod.gcp.cloud.target.internal
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: voltron-ppa-service
+          servicePort: 8080
+

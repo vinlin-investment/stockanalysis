@@ -44,4 +44,19 @@ pipeline:
 #    tag:
 #      - latest
 #      - "${DRONE_COMMIT:0:8}"
-
+#
+#  deployment-dev-east1:
+#    when:
+#      branch: [ dev ]
+#      event: [ push ]
+#    image: docker.target.com/drone/drone-kubernetes:latest
+#    secrets:
+#      - source: kube_config
+#        target: kube_config
+#    context: minikube
+#    filename:
+#      - kube/us-east1-dev/
+#    status: deployment/voltron-ppa-service
+#    status_timeout: 10m
+#    images:
+#      stockanalysis: "vincentko89/stockanalysis:${DRONE_BUILD_NUMBER}-${DRONE_COMMIT_SHA}"
