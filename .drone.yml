@@ -34,7 +34,7 @@ pipeline:
       - latest
       - "${DRONE_COMMIT:0:8}"
 #
-#  # DOCKER BUILD - RELEASE - ARTIFACTORY#
+#  # DOCKER BUILD - RELEASE - ARTIFACTORY##
 #  docker-build-artifactory-master-publish-release:
 #    when:
 #      branch: [ master ]
